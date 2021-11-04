@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: backend_food_recipe_dev
+    image: backend_food_recipe_dev:1.0.0
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://YOUR_USER:YOUR_PASSWD@postgres:5432/YOUR_DB
+      NODE_ENV: development
+      PORT: 3000
+    ports:
+      - '3000:3000'
+      - '9229:9229' # default debugging port on nodejs
+    command: yarn run start:debug
+
+  postgres:
+    image: postgres:12
+    ports:
+      - '35000:5432'
+    environment:
+      POSTGRES_USER: YOUR_USER
+      POSTGRES_PASSWORD: YOUR_PASSWD
+      POSTGRES_DB: YOUR_DB
+      POSTGRES_HOST_AUTH_METHOD: trust
