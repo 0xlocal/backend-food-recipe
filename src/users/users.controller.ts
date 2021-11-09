@@ -10,7 +10,7 @@ import {
 import { UsersService } from './users.service';
 import { UserDTO } from './dto/user.dto';
 
-@Controller('users')
+@Controller()
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

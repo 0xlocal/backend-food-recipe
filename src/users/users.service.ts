@@ -12,8 +12,7 @@ export class UsersService {
   ) {}
 
   async list() {
-    const users = await this.userRepository.find();
-    return users as UserDTO[];
+    return (await this.userRepository.find()) as UserDTO[];
   }
 
   async getOne(id: number) {
@@ -24,7 +23,7 @@ export class UsersService {
     }
 
     throw new HttpException(
-      { status: HttpStatus.NOT_FOUND, error: `User with id ${id} not found` },
+      { status: HttpStatus.NOT_FOUND, message: `User with id ${id} not found` },
       HttpStatus.NOT_FOUND,
     );
   }
@@ -37,7 +36,7 @@ export class UsersService {
       return newUser as UserDTO;
     } catch (error) {
       throw new HttpException(
-        { status: HttpStatus.INTERNAL_SERVER_ERROR, error: error.message },
+        { status: HttpStatus.INTERNAL_SERVER_ERROR, message: error.message },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
@@ -52,7 +51,7 @@ export class UsersService {
     }
 
     throw new HttpException(
-      { status: HttpStatus.NOT_FOUND, error: `User with id ${id} not found` },
+      { status: HttpStatus.NOT_FOUND, message: `User with id ${id} not found` },
       HttpStatus.NOT_FOUND,
     );
   }
@@ -62,7 +61,10 @@ export class UsersService {
 
     if (!deletedUser.affected) {
       throw new HttpException(
-        { status: HttpStatus.NOT_FOUND, error: `User with id ${id} not found` },
+        {
+          status: HttpStatus.NOT_FOUND,
+          message: `User with id ${id} not found`,
+        },
         HttpStatus.NOT_FOUND,
       );
     }
