@@ -9,7 +9,9 @@ describe('RecipeCategoriesController', () => {
       controllers: [RecipeCategoriesController],
     }).compile();
 
-    controller = module.get<RecipeCategoriesController>(RecipeCategoriesController);
+    controller = module.get<RecipeCategoriesController>(
+      RecipeCategoriesController,
+    );
   });
 
   it('should be defined', () => {
