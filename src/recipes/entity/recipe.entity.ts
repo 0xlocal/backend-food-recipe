@@ -7,11 +7,12 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 import User from '../../users/entity/user.entity';
 import { RecipeCategory } from '../../recipe-categories/entity/recipe-category.entity';
-import { StepIngredients } from '../steps/entity/step-ingredients.entity';
-import { Step } from '../steps/entity/step.entity';
+import { StepIngredients } from '../../steps/entity/step-ingredients.entity';
+import { Step } from '../../steps/entity/step.entity';
 
 @Entity('recipe')
 export class Recipe {
@@ -30,6 +31,9 @@ export class Recipe {
 
   @Column({ name: 'author_id' })
   authorId: number;
+
+  @RelationId((recipe: Recipe) => recipe.recipeCategories)
+  recipeCategoryIds: number[];
 
   @ManyToMany(() => RecipeCategory, (recipeCategory) => recipeCategory.recipes)
   @JoinTable({
