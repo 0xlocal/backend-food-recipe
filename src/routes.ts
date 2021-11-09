@@ -3,11 +3,10 @@ import { IngredientCategoriesModule } from './ingredient-categories/ingredient-c
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { RecipeCategoriesModule } from './recipe-categories/recipe-categories.module';
 import { RecipesModule } from './recipes/recipes.module';
-import { StepsModule } from './steps/steps.module';
 import { UsersModule } from './users/users.module';
 
 const routes: Routes = [
-  { path: 'user', module: UsersModule },
+  { path: 'users', module: UsersModule },
   {
     path: 'ingredients',
     module: IngredientsModule,
@@ -16,10 +15,7 @@ const routes: Routes = [
   {
     path: 'recipes',
     module: RecipesModule,
-    children: [
-      { path: 'categories', module: RecipeCategoriesModule },
-      { path: ':recipeId/steps', module: StepsModule },
-    ],
+    children: [{ path: 'categories', module: RecipeCategoriesModule }],
   },
 ];
 
