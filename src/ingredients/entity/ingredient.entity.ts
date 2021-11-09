@@ -1,4 +1,4 @@
-import { StepIngredients } from 'src/recipes/steps/entity/step-ingredients.entity';
+import { StepIngredients } from 'src/steps/entity/step-ingredients.entity';
 import { IngredientCategory } from '../../ingredient-categories/entity/ingredient-category.entity';
 import {
   Column,
@@ -7,6 +7,7 @@ import {
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 
 @Entity('ingredient')
@@ -25,6 +26,9 @@ export class Ingredient {
 
   @OneToMany(() => StepIngredients, (stepIngredients) => stepIngredients.recipe)
   stepIngredients: StepIngredients[];
+
+  @RelationId((ingredient: Ingredient) => ingredient.ingredientCategories)
+  ingredientCategoryIds: number[];
 
   @ManyToMany(
     () => IngredientCategory,
