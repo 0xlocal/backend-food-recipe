@@ -25,12 +25,12 @@ export class Recipe {
   @Column('text')
   description: string;
 
+  @Column({ name: 'author_id' })
+  authorId: number;
+
   @ManyToOne(() => User, (user) => user.recipes)
   @JoinColumn({ name: 'author_id' })
   user: User;
-
-  @Column({ name: 'author_id' })
-  authorId: number;
 
   @RelationId((recipe: Recipe) => recipe.recipeCategories)
   recipeCategoryIds: number[];

@@ -14,12 +14,12 @@ export class RecipeCategory {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ name: 'parent_id', nullable: true })
+  parentId: number;
+
   @ManyToOne(() => RecipeCategory, (recipeCategory) => recipeCategory.children)
   @JoinColumn({ name: 'parent_id' })
   parent: RecipeCategory;
-
-  @Column({ name: 'parent_id' })
-  parentId: number;
 
   @OneToMany(() => RecipeCategory, (recipeCategory) => recipeCategory.parent)
   children: RecipeCategory[];
