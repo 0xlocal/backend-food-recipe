@@ -30,9 +30,9 @@ environment:
   postgres:
   #...
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: vortex21
-      POSTGRES_DB: db_food_recipe
+      POSTGRES_USER: YOUR_USER
+      POSTGRES_PASSWORD: YOUR_PASSWD
+      POSTGRES_DB: YOUR_DB
       POSTGRES_HOST_AUTH_METHOD: trust
 ```
 
