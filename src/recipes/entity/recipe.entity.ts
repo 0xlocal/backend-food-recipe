@@ -13,6 +13,7 @@ import User from '../../users/entity/user.entity';
 import { RecipeCategory } from '../../recipe-categories/entity/recipe-category.entity';
 import { StepIngredients } from '../../steps/entity/step-ingredients.entity';
 import { Step } from '../../steps/entity/step.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('recipe')
 export class Recipe {
@@ -28,14 +29,19 @@ export class Recipe {
   @Column({ name: 'author_id' })
   authorId: number;
 
-  @ManyToOne(() => User, (user) => user.recipes)
+  @ManyToOne(() => User, (user) => user.recipes, { cascade: true })
   @JoinColumn({ name: 'author_id' })
   user: User;
 
   @RelationId((recipe: Recipe) => recipe.recipeCategories)
   recipeCategoryIds: number[];
 
-  @ManyToMany(() => RecipeCategory, (recipeCategory) => recipeCategory.recipes)
+  @Exclude({ toPlainOnly: true })
+  @ManyToMany(
+    () => RecipeCategory,
+    (recipeCategory) => recipeCategory.recipes,
+    { cascade: true },
+  )
   @JoinTable({
     name: 'recipe_category_recipe',
     joinColumn: {
