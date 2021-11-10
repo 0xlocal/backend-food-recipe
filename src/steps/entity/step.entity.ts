@@ -17,7 +17,7 @@ export class Step {
   @Column({ name: 'recipe_id' })
   recipeId: number;
 
-  @ManyToOne(() => Recipe, (recipe) => recipe.steps)
+  @ManyToOne(() => Recipe, (recipe) => recipe.steps, { cascade: true })
   @JoinColumn({ name: 'recipe_id' })
   recipe: Recipe;
 
@@ -33,6 +33,10 @@ export class Step {
   @Column('varchar', { length: 100, nullable: true })
   image: string;
 
-  @OneToMany(() => StepIngredients, (stepIngredients) => stepIngredients.recipe)
+  @OneToMany(
+    () => StepIngredients,
+    (stepIngredients) => stepIngredients.recipe,
+    { cascade: true },
+  )
   stepIngredients: StepIngredients[];
 }
