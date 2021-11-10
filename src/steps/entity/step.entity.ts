@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { StepIngredients } from './step-ingredients.entity';
 import { Recipe } from '../../recipes/entity/recipe.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('step')
 export class Step {
@@ -33,6 +34,7 @@ export class Step {
   @Column('varchar', { length: 100, nullable: true })
   image: string;
 
+  @Exclude({ toPlainOnly: true })
   @OneToMany(
     () => StepIngredients,
     (stepIngredients) => stepIngredients.recipe,
