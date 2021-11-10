@@ -12,7 +12,9 @@ export class IngredientCategoriesService {
   ) {}
 
   async list() {
-    return (await this.ingredientCategoryRepository.find()) as IngredientCategoryDTO[];
+    return await this.ingredientCategoryRepository
+      .find()
+      .then((items) => items.map((e) => IngredientCategoryDTO.fromEntity(e)));
   }
 
   async getOne(id: number) {
@@ -21,7 +23,7 @@ export class IngredientCategoriesService {
     );
 
     if (ingredientCategory) {
-      return ingredientCategory as IngredientCategoryDTO;
+      return IngredientCategoryDTO.fromEntity(ingredientCategory);
     }
 
     throw new HttpException(
@@ -39,7 +41,7 @@ export class IngredientCategoriesService {
         this.ingredientCategoryRepository.create(ingredientCategory);
       await this.ingredientCategoryRepository.save(newIngredientCategory);
 
-      return newIngredientCategory as IngredientCategoryDTO;
+      return IngredientCategoryDTO.fromEntity(newIngredientCategory);
     } catch (error) {
       throw new HttpException(
         {
@@ -57,7 +59,7 @@ export class IngredientCategoriesService {
       await this.ingredientCategoryRepository.findOne(id);
 
     if (updateIngredientCategory) {
-      return updateIngredientCategory as IngredientCategoryDTO;
+      return IngredientCategoryDTO.fromEntity(updateIngredientCategory);
     }
 
     throw new HttpException(
