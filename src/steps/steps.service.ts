@@ -85,7 +85,10 @@ export class StepsService {
 
   async update(id: number, stepData: StepDTO) {
     const updateStep: Partial<Step> = { ...stepData };
-    const updateStepIngredients: Partial<StepIngredients> = { ...stepData };
+    const updateStepIngredients: Partial<StepIngredients> = {
+      ...stepData,
+      stepId: stepData.id,
+    };
 
     await this.stepRepository.save(updateStep);
     await this.stepIngredientRepository.save(updateStepIngredients);
