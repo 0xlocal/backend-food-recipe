@@ -13,6 +13,7 @@ import User from '../../users/entity/user.entity';
 import { RecipeCategory } from '../../recipe-categories/entity/recipe-category.entity';
 import { StepIngredients } from '../../steps/entity/step-ingredients.entity';
 import { Step } from '../../steps/entity/step.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('recipe')
 export class Recipe {
@@ -35,6 +36,7 @@ export class Recipe {
   @RelationId((recipe: Recipe) => recipe.recipeCategories)
   recipeCategoryIds: number[];
 
+  @Exclude({ toPlainOnly: true })
   @ManyToMany(
     () => RecipeCategory,
     (recipeCategory) => recipeCategory.recipes,

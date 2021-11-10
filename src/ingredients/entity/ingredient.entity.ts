@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity('ingredient')
 export class Ingredient {
@@ -27,6 +28,7 @@ export class Ingredient {
   @RelationId((ingredient: Ingredient) => ingredient.ingredientCategories)
   ingredientCategoryIds: number[];
 
+  @Exclude({ toPlainOnly: true })
   @ManyToMany(
     () => IngredientCategory,
     (ingredientCategory) => ingredientCategory.ingredients,
