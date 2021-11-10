@@ -20,12 +20,12 @@ export class StepsController {
   }
 
   @Get(':id')
-  async getUser(@Param('recipeId') recipeId: number, @Param('id') id: number) {
+  async getUser(@Param('id') id: number) {
     return await this.stepsService.getOne(id);
   }
 
   @Post()
-  async createUser(@Param('recipeId') recipeId: number, @Body() step: StepDTO) {
+  async createUser(@Body() step: StepDTO) {
     return this.stepsService.create(step);
   }
 
