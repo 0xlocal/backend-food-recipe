@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Recipe } from '../../recipes/entity/recipe.entity';
 import { Ingredient } from '../../ingredients/entity/ingredient.entity';
 import { Step } from './step.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('step_ingredients')
 export class StepIngredients {
@@ -12,6 +13,7 @@ export class StepIngredients {
   @JoinColumn({ name: 'recipe_id' })
   recipe: Recipe;
 
+  @Exclude({ toPlainOnly: true })
   @PrimaryColumn({ name: 'step_id' })
   stepId: number;
 

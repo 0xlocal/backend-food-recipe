@@ -33,17 +33,22 @@ export class StepsService {
   }
 
   async getOne(id: number) {
-    const step = await this.stepRepository.findOne(id, {
-      relations: ['stepIngredients'],
-    });
+    const step = await this.stepRepository
+      .findOne(id, {
+        relations: ['stepIngredients'],
+      })
+      .then((items) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { stepIngredients, ...newData } = items;
+        return {
+          ...newData,
+          amount: items.stepIngredients[0].amount,
+          unit: items.stepIngredients[0].unit,
+        };
+      });
 
     if (step) {
-      const stepResponse: Partial<StepDTO> = {
-        ...step,
-        amount: step.stepIngredients[0].amount,
-        unit: step.stepIngredients[0].unit,
-      };
-      return stepResponse;
+      return step;
     }
 
     throw new HttpException(
