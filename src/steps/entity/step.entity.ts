@@ -5,12 +5,14 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { StepIngredients } from './step-ingredients.entity';
 import { Recipe } from '../../recipes/entity/recipe.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity('step')
+@Unique(['stepNumber', 'recipeId'])
 export class Step {
   @PrimaryGeneratedColumn()
   id: number;
@@ -35,10 +37,8 @@ export class Step {
   image: string;
 
   @Exclude({ toPlainOnly: true })
-  @OneToMany(
-    () => StepIngredients,
-    (stepIngredients) => stepIngredients.recipe,
-    { cascade: true },
-  )
+  @OneToMany(() => StepIngredients, (stepIngredients) => stepIngredients.step, {
+    cascade: true,
+  })
   stepIngredients: StepIngredients[];
 }
