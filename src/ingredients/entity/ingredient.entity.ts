@@ -9,7 +9,6 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
 
 @Entity('ingredient')
 export class Ingredient {
@@ -22,7 +21,7 @@ export class Ingredient {
   @Column()
   color: number;
 
-  @Column('varchar', { length: 45 })
+  @Column('varchar', { length: 45, nullable: true })
   img: string;
 
   @OneToMany(() => StepIngredients, (stepIngredients) => stepIngredients.recipe)
@@ -31,7 +30,6 @@ export class Ingredient {
   @RelationId((ingredient: Ingredient) => ingredient.ingredientCategories)
   ingredientCategoryIds: number[];
 
-  @Exclude({ toPlainOnly: true })
   @ManyToMany(
     () => IngredientCategory,
     (ingredientCategory) => ingredientCategory.ingredients,

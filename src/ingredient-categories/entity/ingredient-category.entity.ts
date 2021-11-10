@@ -33,7 +33,7 @@ export class IngredientCategory {
   @Column('varchar', { length: 255 })
   name: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   description: string;
 
   @ManyToMany(() => Ingredient, (ingredient) => ingredient.ingredientCategories)
