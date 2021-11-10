@@ -1,17 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IngredientCategory } from 'src/ingredient-categories/entity/ingredient-category.entity';
 import { Repository } from 'typeorm';
 import { Ingredient } from './entity/ingredient.entity';
-import { IngredientCategory } from '../ingredient-categories/entity/ingredient-category.entity';
 import { IngredientDTO } from './dto/ingredient.dto';
 
 @Injectable()
 export class IngredientsService {
   constructor(
     @InjectRepository(Ingredient)
-    private ingredientRepository: Repository<Ingredient>,
+    private readonly ingredientRepository: Repository<Ingredient>,
     @InjectRepository(IngredientCategory)
-    private ingredientCategoryRepository: Repository<IngredientCategory>,
+    private readonly ingredientCategoryRepository: Repository<IngredientCategory>,
   ) {}
 
   async list() {
@@ -28,7 +28,7 @@ export class IngredientsService {
     throw new HttpException(
       {
         status: HttpStatus.NOT_FOUND,
-        message: `Recipe with id ${id} not found`,
+        message: `Ingredient with id ${id} not found`,
       },
       HttpStatus.NOT_FOUND,
     );
@@ -44,9 +44,7 @@ export class IngredientsService {
         );
 
       if (ingredientCategories) {
-        ingredientCategories.forEach((ingredientCategory) => {
-          newIngredient.ingredientCategories.push(ingredientCategory);
-        });
+        newIngredient.ingredientCategories = ingredientCategories;
       }
 
       await this.ingredientRepository.save(newIngredient);
@@ -70,10 +68,12 @@ export class IngredientsService {
       );
 
     const ingredient = {
-      ...ingredientCategories,
+      ...ingredientData,
       ingredientCategories: ingredientCategories,
     };
-    await this.ingredientRepository.update(id, ingredient);
+
+    // * changing to save because update method cannot save many-to-many relations
+    await this.ingredientRepository.save(ingredient);
     const updateIngredient = await this.ingredientRepository.findOne(id);
 
     if (updateIngredient) {
@@ -83,20 +83,20 @@ export class IngredientsService {
     throw new HttpException(
       {
         status: HttpStatus.NOT_FOUND,
-        message: `Recipe with ${id} not found`,
+        message: `Ingredient with ${id} not found`,
       },
       HttpStatus.NOT_FOUND,
     );
   }
 
   async delete(id: number) {
-    const deleteRecipe = await this.ingredientRepository.delete(id);
+    const deleteIngredient = await this.ingredientRepository.delete(id);
 
-    if (!deleteRecipe.affected) {
+    if (!deleteIngredient.affected) {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          message: `Recipe with ${id} not found`,
+          message: `Ingredient with ${id} not found`,
         },
         HttpStatus.NOT_FOUND,
       );
