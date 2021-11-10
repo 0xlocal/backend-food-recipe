@@ -1,8 +1,8 @@
 {
   "name": "backend-food-recipe",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Backend food Recipes",
+  "author": "Ferrel John Fernando",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
