@@ -8,6 +8,7 @@ import { IngredientsModule } from './ingredients/ingredients.module';
 import { IngredientCategoriesModule } from './ingredient-categories/ingredient-categories.module';
 import { RouterModule } from '@nestjs/core';
 import routes from './routes';
+import { StepsModule } from './steps/steps.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import routes from './routes';
     DatabaseModule,
     UsersModule,
     RecipeCategoriesModule,
+    StepsModule,
     RecipesModule,
     IngredientCategoriesModule,
     IngredientsModule,

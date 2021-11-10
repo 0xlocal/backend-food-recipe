@@ -4,6 +4,7 @@ import { IngredientsModule } from './ingredients/ingredients.module';
 import { RecipeCategoriesModule } from './recipe-categories/recipe-categories.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { UsersModule } from './users/users.module';
+import { StepsModule } from './steps/steps.module';
 
 const routes: Routes = [
   { path: 'users', module: UsersModule },
@@ -15,7 +16,10 @@ const routes: Routes = [
   {
     path: 'recipes',
     module: RecipesModule,
-    children: [{ path: 'categories', module: RecipeCategoriesModule }],
+    children: [
+      { path: 'categories', module: RecipeCategoriesModule },
+      { path: ':recipeId/steps', module: StepsModule },
+    ],
   },
 ];
 
