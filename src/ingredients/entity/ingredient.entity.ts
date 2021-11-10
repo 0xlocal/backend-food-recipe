@@ -18,14 +18,11 @@ export class Ingredient {
   @Column('varchar', { length: 45 })
   name: string;
 
-  @Column()
+  @Column('int', { name: 'color' })
   color: number;
 
   @Column('varchar', { length: 45, nullable: true })
   img: string;
-
-  @OneToMany(() => StepIngredients, (stepIngredients) => stepIngredients.recipe)
-  stepIngredients: StepIngredients[];
 
   @RelationId((ingredient: Ingredient) => ingredient.ingredientCategories)
   ingredientCategoryIds: number[];
@@ -33,6 +30,7 @@ export class Ingredient {
   @ManyToMany(
     () => IngredientCategory,
     (ingredientCategory) => ingredientCategory.ingredients,
+    { cascade: true },
   )
   @JoinTable({
     name: 'ingredient_category_ingredient',
@@ -46,4 +44,7 @@ export class Ingredient {
     },
   })
   ingredientCategories: IngredientCategory[];
+
+  @OneToMany(() => StepIngredients, (stepIngredients) => stepIngredients.recipe)
+  stepIngredients: StepIngredients[];
 }

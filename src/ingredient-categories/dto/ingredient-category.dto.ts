@@ -15,14 +15,4 @@ export class IngredientCategoryDTO {
 
     return category;
   }
-
-  public toEntity() {
-    const category = new IngredientCategory();
-    category.id = this.id;
-    category.name = this.name;
-    category.parentId = this.parentId;
-    category.description = this.description;
-
-    return category;
-  }
 }
