@@ -42,9 +42,7 @@ export class RecipesService {
       );
 
       if (recipeCategories) {
-        recipeCategories.forEach((recipeCategory) => {
-          newRecipe.recipeCategories.push(recipeCategory);
-        });
+        newRecipe.recipeCategories = recipeCategories;
       }
 
       await this.recipeRepository.save(newRecipe);
@@ -67,7 +65,9 @@ export class RecipesService {
     );
 
     const recipe = { ...recipeData, recipeCategories: recipeCategories };
-    await this.recipeRepository.update(id, recipe);
+
+    // * changing to save because update method cannot save many-to-many relations
+    await this.recipeRepository.save(recipe);
     const updateRecipe = await this.recipeRepository.findOne(id);
 
     if (updateRecipe) {
